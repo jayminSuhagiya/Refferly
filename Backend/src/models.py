@@ -9,13 +9,14 @@ class UserBase(BaseModel):
     phone: Optional[str]
     linkedin: str
     resume: str
-    portfolio_link: Optional[str]
-    about_me: str
+    portfolio: Optional[str]
+    type: str
+    positions:List[str]
+    about: str
     languages: Optional[str]
-    my_skills: Optional[str]
+    skills: Optional[str]
     title: str
-    company: Optional[str]
-    university: Optional[str]
+    affiliation: Optional[str]
     
     class Config:
         orm_mode = True
@@ -30,3 +31,17 @@ class LoginReq(BaseModel):
     email: str
     password: str
 
+class SwipeBase(BaseModel):
+    swipe_by: int
+    swipe_on: int
+
+class Swipe(SwipeBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+
+class TokenData(BaseModel):
+    id: int
+    email: str
+    name: str
