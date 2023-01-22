@@ -19,6 +19,9 @@ services:
       DB_USER: 'postgres'
       DB_PASSWORD: 'postgres'
       DB_NAME: 'postgres'
+      SECRET_KEY: 'sdkfskjfaskahskjfhahfkashfda'
+      ALGORITHM: 'HS256'
+
     depends_on:
       - db
 
