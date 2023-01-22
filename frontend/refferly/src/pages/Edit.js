@@ -14,10 +14,10 @@ import {
   Chip,
   Button,
 } from "@mui/material";
+import NavBar from "../components/NavBar";
 
 const defaultValues = {
-  email: "",
-  password: "",
+  email: "fixed",
   phone: "",
   linkedin: "",
   resume: "",
@@ -40,7 +40,7 @@ const MenuProps = {
   },
 };
 
-const Signup = () => {
+const Edit = () => {
   const [formValues, setFormValues] = useState(defaultValues);
   const positions = ["Intern", "Entry Level", "Mid Level", "Senior Level"];
 
@@ -57,8 +57,9 @@ const Signup = () => {
     console.log(formValues);
   };
   return (
-    <>
-      <form className="App" onSubmit={handleSubmit}>
+    <div className="App">
+      <NavBar />
+      <form onSubmit={handleSubmit}>
         <Grid
           container
           alignItems="center"
@@ -68,29 +69,18 @@ const Signup = () => {
           sx={{ mb: 5, mt: 2 }}
         >
           <Grid item>
-            <Typography variant="h4">Signup for Refferly</Typography>
+            <Typography variant="h4">Edit Profile</Typography>
           </Grid>
           <Grid item>
             <TextField
               required
+              disabled
               sx={{ width: "30vw" }}
               id="email-input"
               name="email"
               label="Email"
               type="text"
               value={formValues.email}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              required
-              sx={{ width: "30vw" }}
-              id="password-input"
-              name="password"
-              label="Password"
-              type="password"
-              value={formValues.password}
               onChange={handleInputChange}
             />
           </Grid>
@@ -143,7 +133,7 @@ const Signup = () => {
           </Grid>
           <Grid item>
             <TextField
-              required
+              required={formValues.type == "Get Referral"}
               sx={{ width: "30vw" }}
               id="linkedin-input"
               name="linkedin"
@@ -155,7 +145,6 @@ const Signup = () => {
           </Grid>
           <Grid item>
             <TextField
-              required={formValues.type == "Get Referral"}
               sx={{ width: "30vw" }}
               id="resume-input"
               name="resume"
@@ -238,13 +227,13 @@ const Signup = () => {
           </Grid>
           <Grid item sx={{ width: "30vw" }}>
             <Button variant="contained" onClick={handleSubmit}>
-              Signup
+              Save
             </Button>
           </Grid>
         </Grid>
       </form>
-    </>
+    </div>
   );
 };
 
-export default Signup;
+export default Edit;

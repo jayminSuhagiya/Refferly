@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Matches from "./pages/Matches";
+import Edit from "./pages/Edit";
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/signup" exact element={<Signup />} />
         <Route path="/home" exact element={<Home />} />
         <Route path="/matches" exact element={<Matches />} />
+        <Route path="/edit" exact element={<Edit />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
