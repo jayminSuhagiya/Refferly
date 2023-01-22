@@ -24,6 +24,6 @@ We were able to put together a working prototype despite starting late. And also
 
 ## What we learned
 Importance of low-level planning, the front can have some tricky bugs and they're sometimes hard to debug and appreciation for tinder/bumble devs. 
-## What's next for Refferly
 
+## What's next for Refferly
 Well, we haven't thought of it yet. Maybe we will transform it into an App and launch it (of course after many significant improvements).
