@@ -14,16 +14,20 @@ const Match = (props) => {
     props.userType === "Get Referral"
       ? ["name", "affiliation", "title", "about"]
       : ["name", "affiliation", "title", "email", "phone", "about"];
-  props.data.name = props.data.name
-    .split(" ")
-    .map((n) => n[0])
-    .join(".");
+
+  props.data.name =
+    props.userType === "Get Referral"
+      ? props.data.name
+          .split(" ")
+          .map((n) => n[0])
+          .join(".")
+      : props.data.name;
   return (
     <Card variant="outlined" sx={{ width: "80vw", mt: 0.5, mb: 0.5 }}>
       <CardContent>
         {fields.map((field) => (
           <>
-            <Typography sx={{ mt: 0.5 }}>
+            <Typography key={field} sx={{ mt: 0.5 }}>
               {capitalizeFirstLetter(field)}:{"  " + props.data[field]}
             </Typography>
           </>

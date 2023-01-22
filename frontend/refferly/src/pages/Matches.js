@@ -6,7 +6,7 @@ import httpClient from "../httpClient";
 import PageSpinner from "../components/PageSpinner";
 
 const Matches = () => {
-  const [matches, setMatches] = useState(null);
+  const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState(null);
 
