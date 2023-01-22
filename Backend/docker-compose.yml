@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  apireplica1:
+    build: ./src
+    ports:
+      - '9991:80'
+  apireplica2:
+    build: ./src
+    ports:
+      - '9992:80'
+  apireplica3:
+    build: ./src
+    ports:
+      - '9993:80'
+  nginx:
+    build: ./nginx
+    ports:
+      - '9998:80'
+    depends_on:
+      - apireplica1
+      - apireplica2
+      - apireplica3
