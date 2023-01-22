@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict
 
 
-class User(BaseModel):
+class UserBase(BaseModel):
     name: str
     email: str
     password: str
@@ -21,4 +21,12 @@ class User(BaseModel):
         orm_mode = True
 
 
-# class User()
+class User(UserBase):
+    id: int
+    class Config:
+        orm_mode = True
+    
+class LoginReq(BaseModel):
+    email: str
+    password: str
+
