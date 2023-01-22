@@ -5,54 +5,75 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const Match = (props) => {
   useEffect(() => {
     console.log(props);
   });
-  const fields = [
-    "email",
-    "phone",
-    "linkedin",
-    "resume",
-    "portfolio",
-    "type",
-    "positions",
-    "about",
-    "title",
-    "affiliation",
-  ];
+  const fields = ["name", "affiliation", "title", "email", "phone", "about"];
   return (
     <Card variant="outlined" sx={{ width: "80vw", mt: 0.5, mb: 0.5 }}>
       <CardContent>
         {fields.map((field) => (
           <>
             <Typography sx={{ mt: 0.5 }}>
-              {field}:{props.data[field]}
+              {capitalizeFirstLetter(field)}:{"  " + props.data[field]}
             </Typography>
           </>
         ))}
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        {props.data.linkedin != undefined &&
+        props.data.linkedin != null &&
+        props.data.linkedin != "" ? (
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() => {
+              window.open(props.data.linkedin, "_blank");
+            }}
+          >
+            Linkedin
+          </Button>
+        ) : (
+          <></>
+        )}
+        {props.data.resume != undefined &&
+        props.data.resume != null &&
+        props.data.resume != "" ? (
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() => {
+              window.open(props.data.resume, "_blank", "noopener,noreferrer");
+            }}
+          >
+            Resume
+          </Button>
+        ) : (
+          <></>
+        )}
+        {props.data.portfolio != undefined &&
+        props.data.portfolio != null &&
+        props.data.portfolio != "" ? (
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() => {
+              window.open(props.data.portfolio, "_blank");
+            }}
+          >
+            Portfolio
+          </Button>
+        ) : (
+          <></>
+        )}
       </CardActions>
     </Card>
   );
 };
 
-/*
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          be
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-*/
 export default Match;

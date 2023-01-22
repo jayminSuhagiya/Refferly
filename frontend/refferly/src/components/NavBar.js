@@ -12,7 +12,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const pages = ["Matches"];
+const pages = ["Feed", "Matches"];
+const settings = ["Edit Profile", "Logout"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -22,11 +23,15 @@ const NavBar = () => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
-    document.location.href = "/edit";
+    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   return (
@@ -79,16 +84,22 @@ const NavBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={() => {
-                    document.location.href = "/matches";
-                  }}
-                >
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem
+                key={"home"}
+                onClick={() => {
+                  document.location.href = "/home";
+                }}
+              >
+                <Typography textAlign="center">Feed</Typography>
+              </MenuItem>
+              <MenuItem
+                key={"matches"}
+                onClick={() => {
+                  document.location.href = "/matches";
+                }}
+              >
+                <Typography textAlign="center">Matches</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -109,17 +120,24 @@ const NavBar = () => {
             Refferly
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => {
-                  document.location.href = "/matches";
-                }}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+              key={"feed"}
+              onClick={() => {
+                document.location.href = "/home";
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Feed
+            </Button>
+            <Button
+              key={"matches"}
+              onClick={() => {
+                document.location.href = "/matches";
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Matches
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -128,6 +146,39 @@ const NavBar = () => {
                 <Avatar src="" />
               </IconButton>
             </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem
+                key={"edit"}
+                onClick={() => {
+                  document.location.href = "/edit";
+                }}
+              >
+                <Typography textAlign="center">Edit Profile</Typography>
+              </MenuItem>
+              <MenuItem
+                key={"logout"}
+                onClick={() => {
+                  console.log("logout");
+                }}
+              >
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </Container>

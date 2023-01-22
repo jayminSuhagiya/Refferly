@@ -24,8 +24,18 @@ code {
 }
 .gradient {
   text-transform: uppercase;
-  background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
+  background: linear-gradient(#e66465, #9198e5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: bold;
+}
+.overflow {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+.abs {
+  z-index: 0;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  position: absolute;
 }
