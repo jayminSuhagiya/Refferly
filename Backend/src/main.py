@@ -27,14 +27,14 @@ def login(login_req: model.LoginReq):
     access_token = create_access_token({"id": user.id,"email": user.email, "name": user.name})
     return {"token": access_token, "type": "Bearer"}
 
-@app.get("/user/{user_id}", response_model=model.User)
+@app.get("/user", response_model=model.User)
 def get_user(curr_user = Depends(get_current_user)):
     user = crud.get_user(db, curr_user.id)
     if not user:
         raise HTTPException(status_code=404, detail="User Not Found")
     return user
 
-@app.put("/user/{user_id}", response_model=model.User)
+@app.put("/user", response_model=model.User)
 def update_user(user_data: model.UserBase, curr_user = Depends(get_current_user)):
     user_data.type = utils.ref_type(user_data.type)
     user = crud.get_user(db, curr_user.id)
@@ -42,9 +42,10 @@ def update_user(user_data: model.UserBase, curr_user = Depends(get_current_user)
         raise HTTPException(status_code=404, detail="User Not Found")
     return crud.update_user(db, user, user_data)
 
-@app.get("/feed/{user_id}")
+@app.get("/feed")
 def feed(curr_user = Depends(get_current_user)):
     user = crud.get_user(db, curr_user.id)
+    
     return crud.get_feed(db, user)
 
     
