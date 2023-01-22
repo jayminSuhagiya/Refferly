@@ -38,7 +38,7 @@ def login(login_req: model.LoginReq):
     return {"token": access_token, "type": "Bearer"}
 
 
-@app.get("/user/{user_id}", response_model=model.User)
+@app.get("/user", response_model=model.User)
 def get_user(curr_user=Depends(get_current_user)):
     user = crud.get_user(db, curr_user.id)
     if not user:
@@ -46,7 +46,7 @@ def get_user(curr_user=Depends(get_current_user)):
     return user
 
 
-@app.put("/user/{user_id}", response_model=model.User)
+@app.put("/user", response_model=model.User)
 def update_user(
     user_data: model.UserBase, curr_user=Depends(get_current_user)
 ):
@@ -57,7 +57,8 @@ def update_user(
     return crud.update_user(db, user, user_data)
 
 
-@app.get("/feed/{user_id}")
+@app.get("/feed")
 def feed(curr_user=Depends(get_current_user)):
     user = crud.get_user(db, curr_user.id)
+
     return crud.get_feed(db, user)

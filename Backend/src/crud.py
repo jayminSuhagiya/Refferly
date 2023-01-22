@@ -37,6 +37,10 @@ def update_user(db: Session, user: orms.User, user_data: models.UserBase):
 def get_feed(db: Session, user: orms.User):
     looking_for = 1 if user.type == 0 else 0
     print(user)
-    return db.query(orms.User).join(orms.Swipe).filter(orms.User.type == looking_for).filter()
+    swiped_on = db.query(orms.Swipe).filter(orms.Swipe.swipe_by == user.id).with_entities(orms.Swipe.swipe_on).all()
+    data = db.query(orms.User).join(orms.Swipe).filter(orms.User.type == looking_for).filter(orms.Swipe.swipe_on.not_in(swiped_on))
+    print(data)
+    
+
 
     
