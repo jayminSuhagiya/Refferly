@@ -23,7 +23,6 @@ services:
       DB_NAME: "postgres"
       SECRET_KEY: "sdkfskjfaskahskjfhahfkashfda"
       ALGORITHM: "HS256"
-
     depends_on:
       - db
 
