@@ -51,7 +51,10 @@ def feed(curr_user = Depends(get_current_user)):
 def swipe(swipe_data: model.SwipeBase, curr_user = Depends(get_current_user)):
     swipe_data.swipe_by = curr_user.id
     crud.create_swipe(db, swipe_data)
-    return {"matched": crud.is_matched(db, swipe_data)}
+    result = False
+    if swipe_data.type == 1:
+        result = crud.is_matched(db, swipe_data)
+    return {"matched": result}
 
 @app.get("/matched")
 def get_mathches(curr_user = Depends(get_current_user)):
