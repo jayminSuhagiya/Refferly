@@ -61,6 +61,9 @@ def get_matches(db, id):
     return db.query(orms.User).filter(orms.User.id.in_(ids)).all()
 
     
-
-
+def is_matched(db, swipe_data):
+    data = db.query(orms.Swipe).filter(orms.Swipe.type == 1).filter(orms.Swipe.swipe_by == swipe_data.swipe_on).filter(orms.Swipe.swipe_on == swipe_data.swipe_by).all()
+    if data:
+        return True
+    return False
     
