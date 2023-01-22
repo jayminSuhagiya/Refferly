@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Grid,
   TextField,
@@ -14,6 +14,8 @@ import {
   Chip,
   Button,
 } from "@mui/material";
+import PageSpinner from "../components/PageSpinner";
+import httpClient from "../httpClient";
 
 const defaultValues = {
   email: "",
@@ -44,6 +46,10 @@ const MenuProps = {
 const Signup = () => {
   const [formValues, setFormValues] = useState(defaultValues);
   const positions = ["Intern", "Entry Level", "Mid Level", "Senior Level"];
+  const [token, setToken] = useState(null);
+  const [userType, setUserType] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,10 +61,47 @@ const Signup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    setIsLoading(true);
+    httpClient
+      .post("/sign-up", formValues)
+      .then((res) => {
+        setUserType(res.data.type);
+        setUser(res.data.email);
+        localStorage.setItem("user", res.data.email);
+        httpClient
+          .post("login", { email: res.data.email, password: res.data.password })
+          .then((res) => {
+            setToken(res.data.token);
+            localStorage.setItem("token", res.data.token);
+            document.location.href = "/home";
+          });
+      })
+      .catch((err) => {
+        alert("Signup Failed! ");
+        setIsLoading(false);
+      });
   };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (localStorage.getItem("token") !== null) {
+          setToken(localStorage.getItem("token"));
+          setUser(localStorage.getItem("user"));
+          setIsLoading(false);
+          document.location.href = "/home";
+        }
+        setIsLoading(false);
+      } catch (error) {
+        alert(error);
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <>
+      {isLoading && <PageSpinner />}
       <form className="App" onSubmit={handleSubmit}>
         <Grid
           container

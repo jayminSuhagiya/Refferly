@@ -10,10 +10,14 @@ function capitalizeFirstLetter(string) {
 }
 
 const Match = (props) => {
-  useEffect(() => {
-    console.log(props);
-  });
-  const fields = ["name", "affiliation", "title", "email", "phone", "about"];
+  const fields =
+    props.userType === "Get Referral"
+      ? ["name", "affiliation", "title", "about"]
+      : ["name", "affiliation", "title", "email", "phone", "about"];
+  props.data.name = props.data.name
+    .split(" ")
+    .map((n) => n[0])
+    .join(".");
   return (
     <Card variant="outlined" sx={{ width: "80vw", mt: 0.5, mb: 0.5 }}>
       <CardContent>
@@ -28,7 +32,8 @@ const Match = (props) => {
       <CardActions>
         {props.data.linkedin != undefined &&
         props.data.linkedin != null &&
-        props.data.linkedin != "" ? (
+        props.data.linkedin != "" &&
+        props.userType !== "Get Referral" ? (
           <Button
             size="small"
             variant="contained"
@@ -43,7 +48,8 @@ const Match = (props) => {
         )}
         {props.data.resume != undefined &&
         props.data.resume != null &&
-        props.data.resume != "" ? (
+        props.data.resume != "" &&
+        props.userType !== "Get Referral" ? (
           <Button
             size="small"
             variant="contained"
@@ -58,7 +64,8 @@ const Match = (props) => {
         )}
         {props.data.portfolio != undefined &&
         props.data.portfolio != null &&
-        props.data.portfolio != "" ? (
+        props.data.portfolio != "" &&
+        props.userType !== "Get Referral" ? (
           <Button
             size="small"
             variant="contained"

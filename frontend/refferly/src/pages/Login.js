@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   TextField,
@@ -14,6 +14,8 @@ import {
   Chip,
   Button,
 } from "@mui/material";
+import PageSpinner from "../components/PageSpinner";
+import httpClient from "../httpClient";
 
 const defaultValues = {
   email: "",
@@ -22,6 +24,10 @@ const defaultValues = {
 
 const Login = () => {
   const [formValues, setFormValues] = useState(defaultValues);
+  const [token, setToken] = useState(null);
+  const [userType, setUserType] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,10 +39,44 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    httpClient
+      .post("login", formValues)
+      .then((res) => {
+        setToken(res.data.token);
+        setUser(formValues.email);
+        localStorage.setItem("token", res.data.token);
+        httpClient.get("user", { headers: { token: token } }).then((res) => {
+          setUserType(res.data.type === "1" ? "Get Referral" : "Refer");
+        });
+        document.location.href = "/home";
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        alert("Login Failed! ");
+        setIsLoading(false);
+      });
   };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (localStorage.getItem("token") !== null) {
+          setToken(localStorage.getItem("token"));
+          setUser(localStorage.getItem("user"));
+          setIsLoading(false);
+          document.location.href = "/home";
+        }
+        setIsLoading(false);
+      } catch (error) {
+        alert(error);
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <>
+      {isLoading && <PageSpinner />}
       <>
         <form className="AppS" onSubmit={handleSubmit}>
           <Grid
