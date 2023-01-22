@@ -281,17 +281,6 @@ const Signup = () => {
               </Typography>
             </Stack>
           </Grid>
-          <Grid item>
-            <TextField
-              sx={{ width: "30vw" }}
-              id="about-input"
-              name="about"
-              label="About Me"
-              type="text"
-              value={formValues.about}
-              onChange={handleInputChange}
-            />
-          </Grid>
           <Grid item sx={{ width: "30vw" }}>
             <Button variant="contained" onClick={handleSubmit}>
               Signup
