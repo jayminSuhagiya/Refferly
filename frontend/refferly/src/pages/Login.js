@@ -39,11 +39,22 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    httpClient.post("login", formValues).then((res) => {
-      setToken(res.data.token);
-      localStorage.setItem("token", res.data.token);
-      document.location.href = "/home";
-    });
+    httpClient
+      .post("login", formValues)
+      .then((res) => {
+        setToken(res.data.token);
+        setUser(formValues.email);
+        localStorage.setItem("token", res.data.token);
+        httpClient.get("user", { headers: { token: token } }).then((res) => {
+          setUserType(res.data.type === "1" ? "Get Referral" : "Refer");
+        });
+        document.location.href = "/home";
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        alert("Login Failed! ");
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -53,9 +64,9 @@ const Login = () => {
           setToken(localStorage.getItem("token"));
           setUser(localStorage.getItem("user"));
           setIsLoading(false);
+          document.location.href = "/home";
         }
         setIsLoading(false);
-        document.location.href = "/home";
       } catch (error) {
         alert(error);
         setIsLoading(false);

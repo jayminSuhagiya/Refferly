@@ -173,7 +173,8 @@ const NavBar = () => {
               <MenuItem
                 key={"logout"}
                 onClick={() => {
-                  console.log("logout");
+                  localStorage.removeItem("token");
+                  document.location.href = "/";
                 }}
               >
                 <Typography textAlign="center">Logout</Typography>

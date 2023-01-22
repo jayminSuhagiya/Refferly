@@ -62,7 +62,6 @@ const Signup = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
-    console.log(formValues);
     httpClient
       .post("/sign-up", formValues)
       .then((res) => {
@@ -79,7 +78,6 @@ const Signup = () => {
       })
       .catch((err) => {
         alert("Signup Failed! ");
-        console.log(err);
         setIsLoading(false);
       });
   };
@@ -91,6 +89,7 @@ const Signup = () => {
           setToken(localStorage.getItem("token"));
           setUser(localStorage.getItem("user"));
           setIsLoading(false);
+          document.location.href = "/home";
         }
         setIsLoading(false);
       } catch (error) {
