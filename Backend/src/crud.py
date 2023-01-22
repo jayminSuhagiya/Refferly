@@ -47,7 +47,7 @@ def get_feed(db: Session, user: orms.User):
     
     
 def create_swipe(db: Session, swipe_data):
-    data = orms.Swipe(**swipe_data.dict())
+    data = orms.Swipe(swipe_by=swipe_data.swipe_by, swipe_on=swipe_data.swipe_on, type=swipe_data.type)
     db.add(data)
     db.commit()
     db.refresh(data)
