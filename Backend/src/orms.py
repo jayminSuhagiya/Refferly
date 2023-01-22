@@ -23,8 +23,9 @@ class User(Base):
 class Swipe(Base):
     __tablename__ = "swipe"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    swipe_by: Column(Integer, nullable=False)
-    swipe_on: Column(Integer, nullable=False)
+    swipe_by = Column(Integer, nullable=False)
+    swipe_on = Column(Integer, nullable=False)
+    type = Column(Integer, nullable=False)
 
 
 Base.metadata.create_all(bind=engine)

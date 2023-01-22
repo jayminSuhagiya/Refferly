@@ -36,11 +36,34 @@ def update_user(db: Session, user: orms.User, user_data: models.UserBase):
 
 def get_feed(db: Session, user: orms.User):
     looking_for = 1 if user.type == 0 else 0
-    print(user)
     swiped_on = db.query(orms.Swipe).filter(orms.Swipe.swipe_by == user.id).with_entities(orms.Swipe.swipe_on).all()
-    data = db.query(orms.User).join(orms.Swipe).filter(orms.User.type == looking_for).filter(orms.Swipe.swipe_on.not_in(swiped_on))
-    print(data)
+    swiped_on = [data.swipe_on for data in swiped_on]
+    data = db.query(orms.User).filter(orms.User.type == looking_for).filter(orms.User.id.not_in(swiped_on)).all()
+    result = []
+    for user_data in data:
+        if any(x in user.positions for x in user_data.positions):
+            result.append(user_data)
+    return result
     
+    
+def create_swipe(db: Session, swipe_data):
+    data = orms.Swipe(**swipe_data.dict())
+    db.add(data)
+    db.commit()
+    db.refresh(data)
+    return data
 
+def get_matches(db, id):
+    ids = db.query(orms.Swipe).filter(orms.Swipe.swipe_by == id).filter(orms.Swipe.type == 1).all()
+    ids = [data.swipe_on for data in ids]
+    ids = db.query(orms.Swipe).filter(orms.Swipe.swipe_by.in_(ids)).filter(orms.Swipe.swipe_on == id).filter(orms.Swipe.type == 1).all()
+    ids = [data.swipe_by for data in ids]
+    return db.query(orms.User).filter(orms.User.id.in_(ids)).all()
 
+    
+def is_matched(db, swipe_data):
+    data = db.query(orms.Swipe).filter(orms.Swipe.type == 1).filter(orms.Swipe.swipe_by == swipe_data.swipe_on).filter(orms.Swipe.swipe_on == swipe_data.swipe_by).all()
+    if data:
+        return True
+    return False
     
