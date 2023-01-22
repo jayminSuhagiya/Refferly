@@ -1,0 +1,47 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+  backend:
+    build: ../Backend/src/
+    ports:
+      - '9991:80'
+    container_name: backend
+    environment:
+      DB_HOST: 'db'
+      DB_PORT: '5432'
+      DB_USER: 'postgres'
+      DB_PASSWORD: 'postgres'
+      DB_NAME: 'postgres'
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ../frontend/refferly
+    ports:
+      - '3000:3000'
+    container_name: frontend
+    stdin_open: true
+    depends_on:
+      - backend
+
+  nginx:
+    build:
+      context: ../nginx
+    container_name: nginx
+    ports:
+      - '9998:80'
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  db:
+    driver: local
