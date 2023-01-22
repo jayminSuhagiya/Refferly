@@ -27,6 +27,7 @@ const defaultValues = {
   about: "",
   title: "",
   affiliation: "",
+  name: "",
 };
 
 const ITEM_HEIGHT = 48;
@@ -70,6 +71,18 @@ const Edit = () => {
         >
           <Grid item>
             <Typography variant="h4">Edit Profile</Typography>
+          </Grid>
+          <Grid item>
+            <TextField
+              required
+              sx={{ width: "30vw" }}
+              id="name-input"
+              name="name"
+              label="Name"
+              type="text"
+              value={formValues.name}
+              onChange={handleInputChange}
+            />
           </Grid>
           <Grid item>
             <TextField
