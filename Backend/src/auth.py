@@ -1,9 +1,7 @@
 from jose import jwt
 from datetime import timedelta, datetime
 from typing import Optional
-
-SECRET_KEY = "sdkfskjfaskahskjfhahfkashfda"
-ALGORITHM = "HS256"
+from config import SECRET_KEY, ALGORITHM
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
