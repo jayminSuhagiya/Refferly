@@ -32,8 +32,9 @@ class LoginReq(BaseModel):
     password: str
 
 class SwipeBase(BaseModel):
-    swipe_by: int
+    swipe_by: Optional[int]
     swipe_on: int
+    type: int
 
 class Swipe(SwipeBase):
     id: int
