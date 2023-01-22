@@ -45,7 +45,16 @@ def update_user(user_data: model.UserBase, curr_user = Depends(get_current_user)
 @app.get("/feed")
 def feed(curr_user = Depends(get_current_user)):
     user = crud.get_user(db, curr_user.id)
-    
     return crud.get_feed(db, user)
 
+@app.post("/swipe")
+def swipe(swipe_data: model.SwipeBase, curr_user = Depends(get_current_user)):
+    swipe_data.swipe_by = curr_user.id
+    crud.create_swipe(db, swipe_data)
+    return {"message": "Swiped"}
+
+@app.get("/matched")
+def get_mathches(curr_user = Depends(get_current_user)):
+    return crud.get_matches(db, curr_user.id)
+    
     
